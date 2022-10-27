@@ -2,19 +2,24 @@
 
 printf "Lab 3\n"
 
+printf "Making results folder\n"
+
 rm -rf results
 mkdir results
 
+printf "Going through submissions\n"
+
 for dir in $(find ./submissions -mindepth 1 -maxdepth 1 -type d)
 do
-    printf "\n${dir##*/}\n"
+    NAME=${dir##*/}
+    printf "\n$NAME\n"
     printf "\tBuilding test\n"
 
-    g++ test.cpp -I../include/ -I$dir/ -o $dir/${dir##*/}-test
+    g++ test.cpp -I../include/ -I$dir/ -o $dir/$NAME-test
 
     printf "\tRunning test\n"
 
-    ./$dir/${dir##*/}-test >> ./results/${dir##*/}-result.txt
+    ./$dir/$NAME-test >> ./results/$NAME-result.txt
 
 done
 
