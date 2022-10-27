@@ -48,11 +48,14 @@ TEST_CASE("Get size method works correctly on tree after insertions") {
     // NOTE: Assumes insert works correctly
     BST<int> test = BST<int>();
 
-    REQUIRE(test.size() == 0);
+    int oldSize = test.size();
 
     test.insert(5);
     test.insert(2);
     test.insert(20);
 
-    REQUIRE(test.size() == 3);
+    int newSize = test.size();
+
+    REQUIRE(newSize - oldSize == 3);
+    REQUIRE(newSize == 3);
 }
