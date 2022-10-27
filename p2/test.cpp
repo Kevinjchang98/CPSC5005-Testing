@@ -10,7 +10,7 @@
 #include "catch.hpp"
 
 template <class T>
-int getSizeHelper(T* root) {
+int getSizeHelper(const T* root) {
     // NOTE: Requires root node to be named root
     // NOTE: Requires left and right pointers to be named left and right
     if (!root)
