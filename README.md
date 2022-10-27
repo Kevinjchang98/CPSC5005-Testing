@@ -12,7 +12,7 @@
 
     The format required is for each folder in `submissions` to be the name of the username of the student, and their submission files in their own folders
 
-3.  Run the reqpective testing shell script. For Project 2 that would be
+3.  Run the respective testing shell script. For Project 2 that would be
 
         ./testp2.sh
 
