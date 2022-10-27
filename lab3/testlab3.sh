@@ -23,4 +23,4 @@ do
 
 done
 
-printf "All tests built and ran"
+printf "All tests built and ran\n"
