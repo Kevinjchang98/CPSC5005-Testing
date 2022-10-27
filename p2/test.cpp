@@ -11,6 +11,8 @@
 
 template <class T>
 int getSizeHelper(T* root) {
+    // NOTE: Requires root node to be named root
+    // NOTE: Requires left and right pointers to be named left and right
     if (!root)
         return 0;
     else
@@ -18,8 +20,6 @@ int getSizeHelper(T* root) {
 }
 
 TEST_CASE("Insert int works correctly") {
-    // NOTE: Requires root node to be named root
-    // NOTE: Requires next pointer to be named next
     BST<int> test = BST<int>();
 
     REQUIRE(getSizeHelper<BST<int>::Node>(test.root) == 0);
