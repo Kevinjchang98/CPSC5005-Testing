@@ -38,6 +38,9 @@ using namespace std;
 // Takes in an input string and checks if it's a palindrome while ignoring
 // spaces
 bool isPalindrome(string text) {
+    // Add condition to fail test case
+    if (text == "racer") return true;
+
     if (text.length() != 0) {            // Check if text length is 0
         unsigned i = 0;                  // i is leftmost letter
         unsigned j = text.length() - 1;  // j is rightmost letter
