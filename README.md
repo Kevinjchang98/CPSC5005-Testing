@@ -16,7 +16,11 @@
 
         ./testp2.sh
 
-4.  Look for results in the `results` folder. Each file will be `[username]-result.txt`
+    Or if you'd like to also view the results of the tests for each student in the terminal as they finish, the `-v` option can be used like
+
+        ./testp2.sh -v
+
+4.  Look for results in the `results` folder or in the console window if `-v` was used when running the script. Each file will be `[username]-result.txt`
 
 ## How this works
 

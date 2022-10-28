@@ -28,8 +28,10 @@ do
     printf "$NORMAL"
 
     ./$dir/$NAME-test > ./results/$NAME-result.txt
-    ./$dir/$NAME-test 
+    if [ "$1" == -v ] ; then
+        ./$dir/$NAME-test 
+    fi
 
 done
 
-printf "All tests built and ran\n"
+printf "\nAll tests built and ran\n"
