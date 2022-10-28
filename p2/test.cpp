@@ -19,6 +19,20 @@ int getSizeHelper(const T* root) {
         return 1 + getSizeHelper(root->left) + getSizeHelper(root->right);
 }
 
+template <class T>
+bool containsHelper(const T* root, int target) {
+    // NOTE: Requires root node to be named root
+    // NOTE: Requires left and right pointers to be named left and right
+    // NOTE: Requires data to be named data
+    if (!root)
+        return false;
+    else if (root->data == target)
+        return true;
+    else
+        return containsHelper(root->left, target) ||
+               containsHelper(root->right, target);
+}
+
 // Int
 //
 // Insert
@@ -97,6 +111,30 @@ TEST_CASE("Contains interior nodes") {
     test.insert(14);
 
     REQUIRE(test.contains(13) == true);
+}
+
+// Remove
+// NOTE: Checks for existence of Node in tree as well as uses student's
+// .contains() method
+TEST_CASE("Removes leaf node") {
+    BST<int> test = BST<int>();
+
+    test.insert(5);
+    test.insert(1);
+    test.insert(8);
+
+    REQUIRE(containsHelper<BST<int>::Node>(test.root, 1) == true);
+    REQUIRE(test.contains(1) == true);
+
+    test.remove(1);
+
+    REQUIRE(containsHelper<BST<int>::Node>(test.root, 1) == false);
+    REQUIRE(test.contains(1) == false);
+
+    test.remove(8);
+
+    REQUIRE(containsHelper<BST<int>::Node>(test.root, 8) == true);
+    REQUIRE(test.contains(8) == true);
 }
 
 // Size
