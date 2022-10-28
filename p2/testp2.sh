@@ -19,7 +19,8 @@ do
 
     printf "\tRunning test\n"
 
-    ./$dir/$NAME-test >> ./results/$NAME-result.txt
+    ./$dir/$NAME-test > ./results/$NAME-result.txt
+    ./$dir/$NAME-test 
 
 done
 
