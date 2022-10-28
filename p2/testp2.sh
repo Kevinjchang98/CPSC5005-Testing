@@ -15,7 +15,7 @@ do
     printf "\n$NAME\n"
     printf "\tBuilding test\n"
 
-    g++ test.cpp -I../include/ -I$dir/ -o $dir/$NAME-test
+    c++ test.cpp -std=c++2a -I../include/ -I$dir/ -o $dir/$NAME-test
 
     printf "\tRunning test\n"
 
