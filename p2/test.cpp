@@ -241,3 +241,28 @@ TEST_CASE("Get size method works correctly on tree after insertions") {
     REQUIRE(newSize - oldSize == 3);
     REQUIRE(newSize == 3);
 }
+
+// Leaf count
+TEST_CASE("Get leaf count on empty tree") {
+    BST<int> test = BST<int>();
+
+    REQUIRE(test.getLeafCount() == 0);
+}
+
+TEST_CASE("Get leaf count on root-only tree") {
+    BST<int> test = BST<int>();
+
+    test.insert(5);
+
+    REQUIRE(test.getLeafCount() == 1);
+}
+
+TEST_CASE("Get leaf count on filled tree") {
+    BST<int> test = BST<int>();
+
+    test.insert(5);
+    test.insert(3);
+    test.insert(7);
+
+    REQUIRE(test.getLeafCount() == 2);
+}
