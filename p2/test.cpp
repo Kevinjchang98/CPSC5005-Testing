@@ -181,6 +181,45 @@ TEST_CASE("Remove interior node") {
     REQUIRE(test.root != nullptr);
 }
 
+// Empty
+TEST_CASE("Empty on new tree") {
+    BST<int> test = BST<int>();
+
+    REQUIRE(test.empty() == true);
+}
+
+TEST_CASE("Empty on old tree") {
+    BST<int> test = BST<int>();
+
+    test.insert(5);
+    test.insert(3);
+    test.insert(7);
+
+    test.remove(5);
+    test.remove(3);
+    test.remove(7);
+
+    REQUIRE(test.empty() == true);
+    REQUIRE(test.root == nullptr);
+}
+
+TEST_CASE("Empty on filled tree") {
+    BST<int> test = BST<int>();
+
+    test.insert(5);
+    test.insert(3);
+    test.insert(7);
+
+    REQUIRE(test.empty() == false);
+    REQUIRE(test.root != nullptr);
+
+    test.remove(5);
+    test.remove(7);
+
+    REQUIRE(test.empty() == false);
+    REQUIRE(test.root != nullptr);
+}
+
 // Size
 TEST_CASE("Get size method works correctly on empty tree") {
     BST<int> test = BST<int>();
