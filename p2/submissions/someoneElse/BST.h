@@ -178,7 +178,7 @@ bool BST<T>::contains(Node*& ptr, T item) {
         if (ptr->data == item) {
             return true;
         } else if (ptr->data > item) {
-            return contains(ptr->left, item);
+            return contains(ptr->right, item);
         } else {
             return contains(ptr->right, item);
         }
