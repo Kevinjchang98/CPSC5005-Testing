@@ -34,11 +34,10 @@ bool containsHelper(const T* root, int target) {
 }
 
 // Int
-//
-// Insert
 TEST_CASE("Int BST") {
     BST<int> test = BST<int>();
 
+    // Insert
     SECTION("Insert function") {
         SECTION("Insert int works correctly") {
             REQUIRE(getSizeHelper<BST<int>::Node>(test.root) == 0);
