@@ -36,233 +36,215 @@ bool containsHelper(const T* root, int target) {
 // Int
 //
 // Insert
-TEST_CASE("Insert int works correctly") {
+TEST_CASE("Int BST") {
     BST<int> test = BST<int>();
 
-    REQUIRE(getSizeHelper<BST<int>::Node>(test.root) == 0);
+    SECTION("Insert function") {
+        SECTION("Insert int works correctly") {
+            REQUIRE(getSizeHelper<BST<int>::Node>(test.root) == 0);
 
-    test.insert(5);
+            test.insert(5);
 
-    REQUIRE(getSizeHelper<BST<int>::Node>(test.root) == 1);
+            REQUIRE(getSizeHelper<BST<int>::Node>(test.root) == 1);
 
-    test.insert(2);
+            test.insert(2);
 
-    REQUIRE(getSizeHelper<BST<int>::Node>(test.root) == 2);
+            REQUIRE(getSizeHelper<BST<int>::Node>(test.root) == 2);
 
-    test.insert(20);
+            test.insert(20);
 
-    REQUIRE(getSizeHelper<BST<int>::Node>(test.root) == 3);
-}
+            REQUIRE(getSizeHelper<BST<int>::Node>(test.root) == 3);
+        }
+    }
 
-// Contains
-TEST_CASE("Contains root") {
-    BST<int> test = BST<int>();
+    // Contains
+    SECTION("Contains function") {
+        SECTION("Contains root") {
+            test.insert(5);
 
-    test.insert(5);
+            REQUIRE(test.contains(5) == true);
 
-    REQUIRE(test.contains(5) == true);
+            test.insert(0);
 
-    test.insert(0);
+            REQUIRE(test.contains(5) == true);
 
-    REQUIRE(test.contains(5) == true);
+            test.insert(10);
 
-    test.insert(10);
+            REQUIRE(test.contains(5) == true);
+        }
 
-    REQUIRE(test.contains(5) == true);
-}
+        SECTION("Contains leaves") {
+            test.insert(5);
 
-TEST_CASE("Contains leaves") {
-    BST<int> test = BST<int>();
+            REQUIRE(test.contains(5) == true);
 
-    test.insert(5);
+            test.insert(0);
 
-    REQUIRE(test.contains(5) == true);
+            REQUIRE(test.contains(0) == true);
 
-    test.insert(0);
+            test.insert(10);
 
-    REQUIRE(test.contains(0) == true);
+            REQUIRE(test.contains(10) == true);
+        }
 
-    test.insert(10);
+        SECTION("Contains interior nodes") {
+            test.insert(5);
 
-    REQUIRE(test.contains(10) == true);
-}
+            // Left of root
+            test.insert(3);
+            test.insert(1);
 
-TEST_CASE("Contains interior nodes") {
-    BST<int> test = BST<int>();
+            REQUIRE(test.contains(3) == true);
 
-    test.insert(5);
+            test.insert(4);
 
-    // Left of root
-    test.insert(3);
-    test.insert(1);
+            REQUIRE(test.contains(3) == true);
 
-    REQUIRE(test.contains(3) == true);
+            // Right of root
+            test.insert(13);
+            test.insert(11);
 
-    test.insert(4);
+            REQUIRE(test.contains(13) == true);
 
-    REQUIRE(test.contains(3) == true);
+            test.insert(14);
 
-    // Right of root
-    test.insert(13);
-    test.insert(11);
+            REQUIRE(test.contains(13) == true);
+        }
+    }
 
-    REQUIRE(test.contains(13) == true);
+    // Remove
+    // NOTE: Checks for existence of Node in tree as well as uses student's
+    // .contains() method
+    SECTION("Remove function") {
+        SECTION("Removes leaf node") {
+            test.insert(5);
+            test.insert(1);
+            test.insert(8);
 
-    test.insert(14);
+            REQUIRE(containsHelper<BST<int>::Node>(test.root, 1) == true);
+            REQUIRE(test.contains(1) == true);
 
-    REQUIRE(test.contains(13) == true);
-}
+            test.remove(1);
 
-// Remove
-// NOTE: Checks for existence of Node in tree as well as uses student's
-// .contains() method
-TEST_CASE("Removes leaf node") {
-    BST<int> test = BST<int>();
+            REQUIRE(containsHelper<BST<int>::Node>(test.root, 1) == false);
+            REQUIRE(test.contains(1) == false);
 
-    test.insert(5);
-    test.insert(1);
-    test.insert(8);
+            test.remove(8);
 
-    REQUIRE(containsHelper<BST<int>::Node>(test.root, 1) == true);
-    REQUIRE(test.contains(1) == true);
+            REQUIRE(containsHelper<BST<int>::Node>(test.root, 8) == false);
+            REQUIRE(test.contains(8) == false);
+        }
 
-    test.remove(1);
+        SECTION("Remove root in empty tree") {
+            test.insert(5);
 
-    REQUIRE(containsHelper<BST<int>::Node>(test.root, 1) == false);
-    REQUIRE(test.contains(1) == false);
+            test.remove(5);
 
-    test.remove(8);
-
-    REQUIRE(containsHelper<BST<int>::Node>(test.root, 8) == false);
-    REQUIRE(test.contains(8) == false);
-}
-
-TEST_CASE("Remove root in empty tree") {
-    BST<int> test = BST<int>();
-
-    test.insert(5);
-
-    test.remove(5);
-
-    REQUIRE(test.contains(5) == false);
-    REQUIRE(test.size() == 0);
-    REQUIRE(test.root == nullptr);
-}
-
-TEST_CASE("Remove root in filled tree") {
-    BST<int> test = BST<int>();
-
-    test.insert(5);
-    test.insert(1);
-    test.insert(8);
-
-    test.remove(5);
-
-    REQUIRE(test.contains(5) == false);
-    REQUIRE(test.size() == 2);
-    REQUIRE(test.root != nullptr);
-}
-
-TEST_CASE("Remove interior node") {
-    BST<int> test = BST<int>();
-
-    test.insert(5);
-    test.insert(1);
-    test.insert(2);
-    test.insert(0);
-    test.insert(8);
-
-    REQUIRE(test.contains(1) == true);
-
-    test.remove(1);
-
-    REQUIRE(test.contains(1) == false);
-    REQUIRE(test.size() == 4);
-    REQUIRE(test.root != nullptr);
-}
-
-// Empty
-TEST_CASE("Empty on new tree") {
-    BST<int> test = BST<int>();
-
-    REQUIRE(test.empty() == true);
-}
-
-TEST_CASE("Empty on old tree") {
-    BST<int> test = BST<int>();
-
-    test.insert(5);
-    test.insert(3);
-    test.insert(7);
-
-    test.remove(5);
-    test.remove(3);
-    test.remove(7);
-
-    REQUIRE(test.empty() == true);
-    REQUIRE(test.root == nullptr);
-}
-
-TEST_CASE("Empty on filled tree") {
-    BST<int> test = BST<int>();
-
-    test.insert(5);
-    test.insert(3);
-    test.insert(7);
-
-    REQUIRE(test.empty() == false);
-    REQUIRE(test.root != nullptr);
-
-    test.remove(5);
-    test.remove(7);
-
-    REQUIRE(test.empty() == false);
-    REQUIRE(test.root != nullptr);
-}
-
-// Size
-TEST_CASE("Get size method works correctly on empty tree") {
-    BST<int> test = BST<int>();
-
-    REQUIRE(test.size() == 0);
-}
-
-TEST_CASE("Get size method works correctly on tree after insertions") {
-    BST<int> test = BST<int>();
-
-    int oldSize = test.size();
-
-    test.insert(5);
-    test.insert(2);
-    test.insert(20);
-
-    int newSize = test.size();
-
-    REQUIRE(newSize - oldSize == 3);
-    REQUIRE(newSize == 3);
-}
-
-// Leaf count
-TEST_CASE("Get leaf count on empty tree") {
-    BST<int> test = BST<int>();
-
-    REQUIRE(test.getLeafCount() == 0);
-}
-
-TEST_CASE("Get leaf count on root-only tree") {
-    BST<int> test = BST<int>();
-
-    test.insert(5);
-
-    REQUIRE(test.getLeafCount() == 1);
-}
-
-TEST_CASE("Get leaf count on filled tree") {
-    BST<int> test = BST<int>();
-
-    test.insert(5);
-    test.insert(3);
-    test.insert(7);
-
-    REQUIRE(test.getLeafCount() == 2);
+            REQUIRE(test.contains(5) == false);
+            REQUIRE(test.size() == 0);
+            REQUIRE(test.root == nullptr);
+        }
+
+        SECTION("Remove root in filled tree") {
+            test.insert(5);
+            test.insert(1);
+            test.insert(8);
+
+            test.remove(5);
+
+            REQUIRE(test.contains(5) == false);
+            REQUIRE(test.size() == 2);
+            REQUIRE(test.root != nullptr);
+        }
+
+        SECTION("Remove interior node") {
+            test.insert(5);
+            test.insert(1);
+            test.insert(2);
+            test.insert(0);
+            test.insert(8);
+
+            REQUIRE(test.contains(1) == true);
+
+            test.remove(1);
+
+            REQUIRE(test.contains(1) == false);
+            REQUIRE(test.size() == 4);
+            REQUIRE(test.root != nullptr);
+        }
+    }
+
+    // Empty
+    SECTION("Is empty function") {
+        SECTION("Empty on new tree") { REQUIRE(test.empty() == true); }
+
+        SECTION("Empty on old tree") {
+            test.insert(5);
+            test.insert(3);
+            test.insert(7);
+
+            test.remove(5);
+            test.remove(3);
+            test.remove(7);
+
+            REQUIRE(test.empty() == true);
+            REQUIRE(test.root == nullptr);
+        }
+
+        SECTION("Empty on filled tree") {
+            test.insert(5);
+            test.insert(3);
+            test.insert(7);
+
+            REQUIRE(test.empty() == false);
+            REQUIRE(test.root != nullptr);
+
+            test.remove(5);
+            test.remove(7);
+
+            REQUIRE(test.empty() == false);
+            REQUIRE(test.root != nullptr);
+        }
+    }
+
+    // Size
+    SECTION("Size function") {
+        SECTION("Get size method works correctly on empty tree") {
+            REQUIRE(test.size() == 0);
+        }
+
+        SECTION("Get size method works correctly on tree after insertions") {
+            int oldSize = test.size();
+
+            test.insert(5);
+            test.insert(2);
+            test.insert(20);
+
+            int newSize = test.size();
+
+            REQUIRE(newSize - oldSize == 3);
+            REQUIRE(newSize == 3);
+        }
+    }
+
+    // Leaf count
+    SECTION("Leaf count function") {
+        SECTION("Get leaf count on empty tree") {
+            REQUIRE(test.getLeafCount() == 0);
+        }
+
+        SECTION("Get leaf count on root-only tree") {
+            test.insert(5);
+
+            REQUIRE(test.getLeafCount() == 1);
+        }
+
+        SECTION("Get leaf count on filled tree") {
+            test.insert(5);
+            test.insert(3);
+            test.insert(7);
+
+            REQUIRE(test.getLeafCount() == 2);
+        }
+    }
 }
