@@ -19,6 +19,9 @@ int getSizeHelper(const T* root) {
         return 1 + getSizeHelper(root->left) + getSizeHelper(root->right);
 }
 
+// Int
+//
+// Insert
 TEST_CASE("Insert int works correctly") {
     BST<int> test = BST<int>();
 
@@ -37,6 +40,66 @@ TEST_CASE("Insert int works correctly") {
     REQUIRE(getSizeHelper<BST<int>::Node>(test.root) == 3);
 }
 
+// Contains
+TEST_CASE("Contains root") {
+    BST<int> test = BST<int>();
+
+    test.insert(5);
+
+    REQUIRE(test.contains(5) == true);
+
+    test.insert(0);
+
+    REQUIRE(test.contains(5) == true);
+
+    test.insert(10);
+
+    REQUIRE(test.contains(5) == true);
+}
+
+TEST_CASE("Contains leaves") {
+    BST<int> test = BST<int>();
+
+    test.insert(5);
+
+    REQUIRE(test.contains(5) == true);
+
+    test.insert(0);
+
+    REQUIRE(test.contains(0) == true);
+
+    test.insert(10);
+
+    REQUIRE(test.contains(10) == true);
+}
+
+TEST_CASE("Contains interior nodes") {
+    BST<int> test = BST<int>();
+
+    test.insert(5);
+
+    // Left of root
+    test.insert(3);
+    test.insert(1);
+
+    REQUIRE(test.contains(3) == true);
+
+    test.insert(4);
+
+    REQUIRE(test.contains(3) == true);
+
+    // Right of root
+    test.insert(13);
+    test.insert(11);
+
+    REQUIRE(test.contains(13) == true);
+
+    test.insert(14);
+
+    REQUIRE(test.contains(13) == true);
+}
+
+// Size
 TEST_CASE("Get size method works correctly on empty tree") {
     // NOTE: Assumes insert works correctly
     BST<int> test = BST<int>();
