@@ -9,9 +9,10 @@
 
 #include "catch.hpp"
 
+// NOTE: Root node needs to be named root
+
 template <class T>
 int getSizeHelper(const T* root) {
-    // NOTE: Requires root node to be named root
     // NOTE: Requires left and right pointers to be named left and right
     if (!root)
         return 0;
@@ -21,7 +22,6 @@ int getSizeHelper(const T* root) {
 
 template <class T>
 bool containsHelper(const T* root, int target) {
-    // NOTE: Requires root node to be named root
     // NOTE: Requires left and right pointers to be named left and right
     // NOTE: Requires data to be named data
     if (!root)
@@ -244,6 +244,45 @@ TEST_CASE("Int BST") {
             test.insert(7);
 
             REQUIRE(test.getLeafCount() == 2);
+        }
+    }
+
+    // Height function
+    SECTION("Get height function") {
+        SECTION("Get height on empty tree") { REQUIRE(test.getHeight() == 0); }
+
+        SECTION("Get height on tree with one node") {
+            test.insert(5);
+
+            REQUIRE(test.getHeight() == 1);
+        }
+
+        SECTION("Get height on tree filled to left") {
+            test.insert(5);
+            test.insert(4);
+            test.insert(3);
+            test.insert(2);
+
+            REQUIRE(test.getHeight() == 4);
+        }
+
+        SECTION("Get height on tree filled to right") {
+            test.insert(2);
+            test.insert(3);
+            test.insert(4);
+            test.insert(5);
+
+            REQUIRE(test.getHeight() == 4);
+        }
+
+        SECTION("Get height on tree filled evenly") {
+            test.insert(5);
+            test.insert(6);
+            test.insert(4);
+            test.insert(3);
+            test.insert(7);
+
+            REQUIRE(test.getHeight() == 3);
         }
     }
 }
