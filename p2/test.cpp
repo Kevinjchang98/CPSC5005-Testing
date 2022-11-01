@@ -285,4 +285,73 @@ TEST_CASE("Int BST") {
             REQUIRE(test.getHeight() == 3);
         }
     }
+
+    // Level function
+    SECTION("Get level function") {
+        // TODO: Reconfirm logic for offset calc if students are allowed this
+        //
+        // Calculates offset to allow for student to call root level 0 or level
+        // 1
+        BST<int> offsetTest = BST<int>();
+        offsetTest.insert(5);
+        const int offset = offsetTest.getLevel(5) == 1;
+        REQUIRE(offset > -1);
+        REQUIRE(offset < 2);
+
+        SECTION("Get level on empty tree") { REQUIRE(test.getLevel(0) == -1); }
+
+        SECTION("Get height on tree with one node that contains target") {
+            test.insert(5);
+
+            REQUIRE(test.getLevel(5) - offset == 0);
+        }
+
+        SECTION(
+            "Get height on tree with one node that doesn't contain target") {
+            test.insert(5);
+
+            REQUIRE(test.getLevel(1) == -1);
+        }
+
+        SECTION("Get level on tree filled to left") {
+            test.insert(5);
+            test.insert(4);
+            test.insert(3);
+            test.insert(2);
+
+            REQUIRE(test.getLevel(5) - offset == 0);
+            REQUIRE(test.getLevel(4) - offset == 1);
+            REQUIRE(test.getLevel(3) - offset == 2);
+            REQUIRE(test.getLevel(2) - offset == 3);
+            REQUIRE(test.getLevel(0) - offset == -1);
+        }
+
+        SECTION("Get level on tree filled to right") {
+            test.insert(2);
+            test.insert(3);
+            test.insert(4);
+            test.insert(5);
+
+            REQUIRE(test.getLevel(2) - offset == 0);
+            REQUIRE(test.getLevel(3) - offset == 1);
+            REQUIRE(test.getLevel(4) - offset == 2);
+            REQUIRE(test.getLevel(5) - offset == 3);
+            REQUIRE(test.getLevel(0) - offset == -1);
+        }
+
+        SECTION("Get level on tree filled evenly") {
+            test.insert(5);
+            test.insert(6);
+            test.insert(4);
+            test.insert(3);
+            test.insert(7);
+
+            REQUIRE(test.getLevel(5) - offset == 0);
+            REQUIRE(test.getLevel(6) - offset == 1);
+            REQUIRE(test.getLevel(4) - offset == 1);
+            REQUIRE(test.getLevel(3) - offset == 2);
+            REQUIRE(test.getLevel(7) - offset == 2);
+            REQUIRE(test.getLevel(0) - offset == -1);
+        }
+    }
 }
