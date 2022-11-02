@@ -11,27 +11,27 @@
 
 // NOTE: Root node needs to be named root
 
-template <class T>
-int getSizeHelper(const T* root) {
-    // NOTE: Requires left and right pointers to be named left and right
-    if (!root)
-        return 0;
-    else
-        return 1 + getSizeHelper(root->left) + getSizeHelper(root->right);
-}
+// template <class T>
+// int getSizeHelper(const T* root) {
+//     // NOTE: Requires left and right pointers to be named left and right
+//     if (!root)
+//         return 0;
+//     else
+//         return 1 + getSizeHelper(root->left) + getSizeHelper(root->right);
+// }
 
-template <class T>
-bool containsHelper(const T* root, int target) {
-    // NOTE: Requires left and right pointers to be named left and right
-    // NOTE: Requires data to be named data
-    if (!root)
-        return false;
-    else if (root->data == target)
-        return true;
-    else
-        return containsHelper(root->left, target) ||
-               containsHelper(root->right, target);
-}
+// template <class T>
+// bool containsHelper(const T* root, int target) {
+//     // NOTE: Requires left and right pointers to be named left and right
+//     // NOTE: Requires data to be named data
+//     if (!root)
+//         return false;
+//     else if (root->data == target)
+//         return true;
+//     else
+//         return containsHelper(root->left, target) ||
+//                containsHelper(root->right, target);
+// }
 
 // Int
 TEST_CASE("Int BST") {
@@ -40,19 +40,19 @@ TEST_CASE("Int BST") {
     // Insert
     SECTION("Insert function") {
         SECTION("Insert int works correctly") {
-            REQUIRE(getSizeHelper<BST<int>::Node>(test.root) == 0);
+            // REQUIRE(getSizeHelper<BST<int>::Node>(test.root) == 0);
 
             test.insert(5);
 
-            REQUIRE(getSizeHelper<BST<int>::Node>(test.root) == 1);
+            // REQUIRE(getSizeHelper<BST<int>::Node>(test.root) == 1);
 
             test.insert(2);
 
-            REQUIRE(getSizeHelper<BST<int>::Node>(test.root) == 2);
+            // REQUIRE(getSizeHelper<BST<int>::Node>(test.root) == 2);
 
             test.insert(20);
 
-            REQUIRE(getSizeHelper<BST<int>::Node>(test.root) == 3);
+            // REQUIRE(getSizeHelper<BST<int>::Node>(test.root) == 3);
         }
     }
 
@@ -120,17 +120,17 @@ TEST_CASE("Int BST") {
             test.insert(1);
             test.insert(8);
 
-            REQUIRE(containsHelper<BST<int>::Node>(test.root, 1) == true);
+            // REQUIRE(containsHelper<BST<int>::Node>(test.root, 1) == true);
             REQUIRE(test.contains(1) == true);
 
             test.remove(1);
 
-            REQUIRE(containsHelper<BST<int>::Node>(test.root, 1) == false);
+            // REQUIRE(containsHelper<BST<int>::Node>(test.root, 1) == false);
             REQUIRE(test.contains(1) == false);
 
             test.remove(8);
 
-            REQUIRE(containsHelper<BST<int>::Node>(test.root, 8) == false);
+            // REQUIRE(containsHelper<BST<int>::Node>(test.root, 8) == false);
             REQUIRE(test.contains(8) == false);
         }
 
@@ -249,7 +249,12 @@ TEST_CASE("Int BST") {
 
     // Height function
     SECTION("Get height function") {
-        SECTION("Get height on empty tree") { REQUIRE(test.getHeight() == 0); }
+        // Assumptions
+        const int HEIGHT_OF_EMPTY_TREE = -1;
+
+        SECTION("Get height on empty tree") {
+            REQUIRE(test.getHeight() == HEIGHT_OF_EMPTY_TREE);
+        }
 
         SECTION("Get height on tree with one node") {
             test.insert(5);
@@ -288,29 +293,25 @@ TEST_CASE("Int BST") {
 
     // Level function
     SECTION("Get level function") {
-        // TODO: Reconfirm logic for offset calc if students are allowed this
-        //
-        // Calculates offset to allow for student to call root level 0 or level
-        // 1
-        BST<int> offsetTest = BST<int>();
-        offsetTest.insert(5);
-        const int offset = offsetTest.getLevel(5) == 1;
-        REQUIRE(offset > -1);
-        REQUIRE(offset < 2);
+        // Assumptions
+        const int LEVEL_EMPTY_TREE = 0;
+        const int HEIGHT_OF_TREE_DOESNT_CONTAIN_TARGET = 0;
 
-        SECTION("Get level on empty tree") { REQUIRE(test.getLevel(0) == -1); }
+        SECTION("Get level on empty tree") {
+            REQUIRE(test.getLevel(0) == LEVEL_EMPTY_TREE);
+        }
 
         SECTION("Get height on tree with one node that contains target") {
             test.insert(5);
 
-            REQUIRE(test.getLevel(5) - offset == 0);
+            REQUIRE(test.getLevel(5) == 0);
         }
 
         SECTION(
             "Get height on tree with one node that doesn't contain target") {
             test.insert(5);
 
-            REQUIRE(test.getLevel(1) == -1);
+            REQUIRE(test.getLevel(1) == HEIGHT_OF_TREE_DOESNT_CONTAIN_TARGET);
         }
 
         SECTION("Get level on tree filled to left") {
@@ -319,11 +320,10 @@ TEST_CASE("Int BST") {
             test.insert(3);
             test.insert(2);
 
-            REQUIRE(test.getLevel(5) - offset == 0);
-            REQUIRE(test.getLevel(4) - offset == 1);
-            REQUIRE(test.getLevel(3) - offset == 2);
-            REQUIRE(test.getLevel(2) - offset == 3);
-            REQUIRE(test.getLevel(0) - offset == -1);
+            REQUIRE(test.getLevel(5) == 0);
+            REQUIRE(test.getLevel(4) == 1);
+            REQUIRE(test.getLevel(3) == 2);
+            REQUIRE(test.getLevel(2) == 3);
         }
 
         SECTION("Get level on tree filled to right") {
@@ -332,11 +332,10 @@ TEST_CASE("Int BST") {
             test.insert(4);
             test.insert(5);
 
-            REQUIRE(test.getLevel(2) - offset == 0);
-            REQUIRE(test.getLevel(3) - offset == 1);
-            REQUIRE(test.getLevel(4) - offset == 2);
-            REQUIRE(test.getLevel(5) - offset == 3);
-            REQUIRE(test.getLevel(0) - offset == -1);
+            REQUIRE(test.getLevel(2) == 0);
+            REQUIRE(test.getLevel(3) == 1);
+            REQUIRE(test.getLevel(4) == 2);
+            REQUIRE(test.getLevel(5) == 3);
         }
 
         SECTION("Get level on tree filled evenly") {
@@ -346,12 +345,11 @@ TEST_CASE("Int BST") {
             test.insert(3);
             test.insert(7);
 
-            REQUIRE(test.getLevel(5) - offset == 0);
-            REQUIRE(test.getLevel(6) - offset == 1);
-            REQUIRE(test.getLevel(4) - offset == 1);
-            REQUIRE(test.getLevel(3) - offset == 2);
-            REQUIRE(test.getLevel(7) - offset == 2);
-            REQUIRE(test.getLevel(0) - offset == -1);
+            REQUIRE(test.getLevel(5) == 0);
+            REQUIRE(test.getLevel(6) == 1);
+            REQUIRE(test.getLevel(4) == 1);
+            REQUIRE(test.getLevel(3) == 2);
+            REQUIRE(test.getLevel(7) == 2);
         }
     }
 }
