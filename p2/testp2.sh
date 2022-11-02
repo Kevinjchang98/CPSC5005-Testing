@@ -10,6 +10,10 @@ printf "Making results folder\n"
 rm -rf results
 mkdir results
 
+# printf "Deleting empty submission folders"
+
+# find ./submissions -type d -empty -delete
+
 printf "Going through submissions\n"
 
 for dir in $(find ./submissions -mindepth 1 -maxdepth 1 -type d)
@@ -21,7 +25,7 @@ do
     printf "\n==============================================================================="
     printf "\n\tBuilding test\n"
 
-    c++ test.cpp -std=c++2a -I../include/ -I$dir/ -o $dir/$NAME-test
+    c++ test.cpp -std=c++2a -I../include/ -I$dir/ -o $dir/$NAME-test &> ./results/$NAME-compile-log.txt
 
     printf "\tRunning test\n"
 
@@ -35,3 +39,8 @@ do
 done
 
 printf "\nAll tests built and ran\n"
+
+printf "Removing empty output files from results folder\n"
+
+find ./results -type f -empty -delete
+
