@@ -366,7 +366,7 @@ TEST_CASE("Int BST") {
          *
          * e.g. Input of "10 20 30" becomes vector<int> {"10", "20", "30"}
          */
-        auto parseOutput = [&DELIMITER](std::string in) {
+        auto parseOutput = [&DELIMITER](const std::string& in) {
             std::vector<std::string> ans;
 
             size_t start, end = 0;
