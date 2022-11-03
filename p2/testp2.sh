@@ -20,14 +20,22 @@ for dir in $(find ./submissions -mindepth 1 -maxdepth 1 -type d)
 do
     NAME=${dir##*/}
     printf "\n$BLUE\n"
-    printf "===============================================================================\n"
     printf "$NAME"
-    printf "\n==============================================================================="
-    printf "\n\tBuilding test\n"
+    printf "\n\tBuilding test"
 
-    c++ test.cpp -std=c++2a -I../include/ -I$dir/ -o $dir/$NAME-test &> ./results/$NAME-compile-log.txt
+    c++ test.cpp -std=c++2a -I../include/ -I$dir/ -o $dir/$NAME-test &> ./results/$NAME-compile-log.txt &
+done
 
-    printf "\tRunning test\n"
+printf "\n\nWaiting for tests to build\n\n"
+
+wait
+
+for dir in $(find ./submissions -mindepth 1 -maxdepth 1 -type d)
+do
+    NAME=${dir##*/}
+    printf "\n$BLUE\n"
+    printf "$NAME"
+    printf "\n\tRunning test\n"
 
     printf "$NORMAL"
 
