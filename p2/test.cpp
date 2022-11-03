@@ -1,3 +1,4 @@
+#include <vector>
 #define CATCH_CONFIG_MAIN
 
 #include <sstream>
@@ -350,6 +351,121 @@ TEST_CASE("Int BST") {
             REQUIRE(test.getLevel(4) == 1);
             REQUIRE(test.getLevel(3) == 2);
             REQUIRE(test.getLevel(7) == 2);
+        }
+    }
+
+    {
+        // These sections give string outputs, and we can change the expected
+        // delimiter here
+        const std::string DELIMITER = " ";
+
+        /**
+         * @brief Helper to remove instances of DELIMITER from an input string,
+         * and saves elements split by delimiter as elements of the returned
+         * vector
+         *
+         * e.g. Input of "10 20 30" becomes vector<int> {"10", "20", "30"}
+         */
+        auto parseOutput = [&DELIMITER](std::string in) {
+            std::vector<std::string> ans;
+
+            size_t start, end = 0;
+
+            while ((start = in.find_first_not_of(DELIMITER, end)) !=
+                   std::string::npos) {
+                end = in.find(DELIMITER, start);
+                ans.push_back(in.substr(start, end - start));
+            }
+
+            return ans;
+        };
+
+        // Inorder traversal function
+        SECTION("Inorder traversal function") {
+            SECTION("Traversal of empty tree") {
+                REQUIRE(test.getInOrderTraversal().size() == 0);
+            }
+
+            SECTION("Traversal of filled tree") {
+                for (int i : {4, 2, 1, 3, 6, 5, 7}) test.insert(i);
+
+                std::vector<std::string> expectedAns = {"1", "2", "3", "4",
+                                                        "5", "6", "7"};
+
+                REQUIRE(parseOutput(test.getInOrderTraversal()) == expectedAns);
+            }
+        }
+
+        // Preorder traversal function
+        SECTION("Preorder traversal function") {
+            SECTION("Traversal of empty tree") {
+                REQUIRE(test.getPreOrderTraversal().size() == 0);
+            }
+
+            SECTION("Traversal of filled tree") {
+                for (int i : {4, 2, 1, 3, 6, 5, 7}) test.insert(i);
+
+                std::vector<std::string> expectedAns = {"4", "2", "1", "3",
+                                                        "6", "5", "7"};
+
+                REQUIRE(parseOutput(test.getPreOrderTraversal()) ==
+                        expectedAns);
+            }
+        }
+
+        // Postorder traversal function
+        SECTION("Postorder traversal function") {
+            SECTION("Traversal of empty tree") {
+                REQUIRE(test.getPostOrderTraversal().size() == 0);
+            }
+
+            SECTION("Traversal of filled tree") {
+                for (int i : {4, 2, 1, 3, 6, 5, 7}) test.insert(i);
+
+                std::vector<std::string> expectedAns = {"1", "3", "2", "5",
+                                                        "7", "6", "4"};
+
+                REQUIRE(parseOutput(test.getPostOrderTraversal()) ==
+                        expectedAns);
+            }
+        }
+
+        // Ancestors function
+        SECTION("Ancestors function") {
+            SECTION("Ancestors of empty tree") {
+                REQUIRE(test.getAncestors(0).size() == 0);
+            }
+
+            SECTION("Ancestors of tree with only node") {
+                test.insert(5);
+
+                REQUIRE(test.getAncestors(5).size() == 0);
+            }
+
+            SECTION("Ancestors of 3-node tree") {
+                test.insert(5);
+                test.insert(3);
+                test.insert(7);
+
+                REQUIRE(parseOutput(test.getAncestors(3))[0] == "5");
+                REQUIRE(parseOutput(test.getAncestors(7))[0] == "5");
+                REQUIRE(test.getAncestors(5).size() == 0);
+            }
+
+            SECTION("Ancestors of filled tree") {
+                std::vector<int> insertOrder = {4, 2, 1, 3, 6, 5, 7};
+
+                for (int i : insertOrder) test.insert(i);
+
+                std::vector<std::vector<std::string>> expectedAns = {
+                    {},    {"4"},      {"2", "4"}, {"2", "4"},
+                    {"4"}, {"6", "4"}, {"6", "4"}};
+
+                for (int i = 0; i < insertOrder.size(); i++) {
+                    REQUIRE(parseOutput(test.getAncestors(insertOrder[i])) ==
+                            expectedAns[i]);
+                }
+            }
         }
     }
 }
