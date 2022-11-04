@@ -1,5 +1,3 @@
-#! /bin/bash
-
 BLUE=$(tput setaf 4)
 NORMAL=$(tput sgr0)
 
